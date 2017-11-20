@@ -1,4 +1,4 @@
-#CS496 Mobile and Web development HW3
+#CS496 Mobile and Web development Final Project: Hybrid
 # Cord Meados 2017
 
 # [START imports]
@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 import webapp2
 import json
 
-
+from workout import Workout, WorkoutHandler
 
 
 
@@ -28,6 +28,8 @@ webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),	
+	('/workout', WorkoutHandler),
+	('/workout/([\w-]+)', WorkoutHandler),
 	
 ], debug=True)
 # [END app] 
