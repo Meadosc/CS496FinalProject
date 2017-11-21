@@ -8,6 +8,7 @@ import json
 
 from workout import Workout, WorkoutHandler
 from exercise import Exercise, ExerciseHandler
+from relationship import Relationship, RelationshipHandler
 
 
 
@@ -33,6 +34,7 @@ app = webapp2.WSGIApplication([
 	('/workout/([\w-]+)', WorkoutHandler),
 	('/exercise', ExerciseHandler),
 	('/exercise/([\w-]+)', ExerciseHandler),
+	('/relationship', RelationshipHandler),
 	
 ], debug=True)
 # [END app] 
