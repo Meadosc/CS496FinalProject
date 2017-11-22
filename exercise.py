@@ -15,8 +15,9 @@ import json
 class Exercise(ndb.Model):
 	name = ndb.StringProperty(required=True)
 	weight = ndb.IntegerProperty(required=True)
-	reps = ndb.IntegerProperty(required=True)
 	sets = ndb.IntegerProperty(required=True)
+	reps = ndb.IntegerProperty(required=True)
+
 	
 	
 
@@ -67,3 +68,43 @@ class ExerciseHandler(webapp2.RequestHandler):
 		self.response.write(json.dumps(exercise_dict))	
 			
 			
+	def patch(self, id=None):
+		if id:
+			e = ndb.Key(urlsafe=id).get() #get the object instance from the database
+			if self.request.body: #check if user sent data. If not, abort error 404
+				new_data = json.loads(self.request.body)
+			else:
+				webapp2.abort(400,"Bad user input")
+			
+			#replace data if it is there.
+			if isinstance(new_data.get('name', None), basestring): 
+				e.name = new_data['name']
+			if isinstance(new_data.get('weight', None), int):
+				e.weight = new_data['weight']
+			if isinstance(new_data.get('sets', None), int):
+				e.sets = new_data['sets']
+			if isinstance(new_data.get('reps', None), int):
+				e.reps = new_data['reps']
+			
+			e.put() #put new info on database
+			
+			e_d = e.to_dict() ###debugging
+			self.response.write(json.dumps(e_d)) ###debugging
+		else:
+			self.response.write("patch to ExerciseHandler") #debugging
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

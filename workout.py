@@ -38,7 +38,8 @@ class WorkoutHandler(webapp2.RequestHandler):
 				w_d['self'] = '/workout/' + w.key.urlsafe() #add a "self" link to each workout dictionary
 				workout_dict.append(w_d) #save workout dictionary in larger dictionary
 			self.response.write(json.dumps(workout_dict)) #return workout with links to themselves.
-		
+
+			
 	def post(self):
 		#Create parent key so we can have a workout tree
 		parent_key = ndb.Key(Workout, "parent_workout")
@@ -67,5 +68,50 @@ class WorkoutHandler(webapp2.RequestHandler):
 		workout_dict = new_workout.to_dict()
 		workout_dict['self'] = '/workout/' + new_workout.key.urlsafe()
 		self.response.write(json.dumps(workout_dict))	
+			
+
+	def patch(self, id=None):
+		if id:
+			w = ndb.Key(urlsafe=id).get() #get the object instance from the database
+			if self.request.body: #check if user sent data. If not, abort error 404
+				new_data = json.loads(self.request.body)
+			else:
+				webapp2.abort(400,"Bad user input")
+			
+			#replace data if it is there.
+			if isinstance(new_data.get('name', None), basestring): 
+				w.name = new_data['name']
+			if isinstance(new_data.get('date', None), basestring):
+				w.date = new_data['date']
+			if isinstance(new_data.get('type', None), basestring):
+				w.type = new_data['type']
+			if isinstance(new_data.get('notes', None), basestring):
+				w.notes = new_data['notes']
+			
+			w.put() #put new info on database
+			
+			w_d = w.to_dict() ###debugging
+			self.response.write(json.dumps(w_d)) ###debugging
+		else:
+			self.response.write("patch to WorkoutHandler") #debugging
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
