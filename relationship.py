@@ -3,6 +3,7 @@
 
 #-----------------------------------
 #Relationship Class and handler for main.py
+###currently not used. Had more problems than it solved.
 #-----------------------------------
 
 # [START imports]
