@@ -17,6 +17,7 @@ class Workout(ndb.Model):
 	date = ndb.StringProperty(required=True)
 	type = ndb.StringProperty(required=True)
 	notes = ndb.StringProperty(required=True)
+	workoutURLID = ndb.StringProperty()
 	exerciseIDs = ndb.StringProperty(repeated=True) #list of relationship ids in the workout
 	
 	
@@ -61,6 +62,9 @@ class WorkoutHandler(webapp2.RequestHandler):
 		if isinstance(workout_data.get('notes', None), basestring) == False:
 			webapp2.abort(400,"Bad user input. Give json string with 'name', 'date', 'type', and 'notes'")
 		new_workout.notes = workout_data['notes']
+		
+		#add key as property so front end can easily reference and recieve key/ID via json.
+		new_workout.workoutURLID = new_workout.key.urlsafe()
 		
 		#put workout object on database
 		new_workout.put()
