@@ -9,7 +9,6 @@
 from google.appengine.ext import ndb
 import webapp2
 import json
-from relationship import Relationship, RelationshipHandler
 
 
 #workout
