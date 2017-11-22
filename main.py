@@ -35,6 +35,7 @@ app = webapp2.WSGIApplication([
 	('/exercise', ExerciseHandler),
 	('/exercise/([\w-]+)', ExerciseHandler),
 	('/relationship', RelationshipHandler),
+	('/relationship/([\w-]+)', RelationshipHandler),
 	
 ], debug=True)
 # [END app] 

@@ -9,6 +9,7 @@
 from google.appengine.ext import ndb
 import webapp2
 import json
+from relationship import Relationship, RelationshipHandler
 
 
 #workout
@@ -97,7 +98,18 @@ class WorkoutHandler(webapp2.RequestHandler):
 			
 			
 			
-			
+	def delete(self, id=None):
+		#if there is an id, delete it
+		if id:
+			w = ndb.Key(urlsafe=id).get() #get the boat object from the database
+			for r in Relationship.query().fetch():
+				###self.response.write(r.workoutID) ###debugging
+				if w.key.id() == r.workoutID:
+					self.response.write(w.key.id()) ###debugging
+					#r.delete() #delete relationship
+
+			###self.response.write(w.key.id()) ###debugging
+			#ndb.Key(urlsafe=id).delete() #delete workout
 			
 			
 			
