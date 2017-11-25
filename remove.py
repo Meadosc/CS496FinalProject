@@ -15,3 +15,6 @@ from exercise import Exercise
 class RemoveHandler(webapp2.RequestHandler):
 	def post(self, id=None):
 		w = ndb.Key(urlsafe=id).get()  #get the workout object from the database
+		##########################
+		###add in removal functionality
+		##########################

@@ -93,6 +93,9 @@ class ExerciseHandler(webapp2.RequestHandler):
 		else:
 			self.response.write("patch to ExerciseHandler") #debugging
 			
+	################################
+	### needs delete handler
+	###############################
 			
 
 
