@@ -17,6 +17,7 @@ class Exercise(ndb.Model):
 	weight = ndb.IntegerProperty(required=True)
 	sets = ndb.IntegerProperty(required=True)
 	reps = ndb.IntegerProperty(required=True)
+	exerciseURLID = ndb.StringProperty()
 
 	
 	
@@ -58,6 +59,9 @@ class ExerciseHandler(webapp2.RequestHandler):
 		if isinstance(exercise_data.get('reps', None), int) == False:
 			webapp2.abort(400,"Bad user input. Give json string with 'name', 'weight', 'sets', and 'reps'")
 		new_exercise.reps = exercise_data['reps']
+		
+		#add URL safe database ID so front end can easily reference object via HTTP calls and JSON
+		new_exercise.exerciseURLID = new_exercise.key.urlsafe()
 		
 		#put exercise object on database
 		new_exercise.put()

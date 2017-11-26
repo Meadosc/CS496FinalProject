@@ -18,3 +18,4 @@ class RemoveHandler(webapp2.RequestHandler):
 		##########################
 		###add in removal functionality
 		##########################
+		

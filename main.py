@@ -17,7 +17,7 @@ from remove import RemoveHandler
 # [START main_page]
 class MainPage(webapp2.RequestHandler):
     def get(self):
-		self.response.write("Final Project main page")		
+		self.response.write({"title":"Final Project main page"})		### debug
 # [END main_page]
 
 
