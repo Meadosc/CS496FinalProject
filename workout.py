@@ -63,11 +63,15 @@ class WorkoutHandler(webapp2.RequestHandler):
 			webapp2.abort(400,"Bad user input. Give json string with 'name', 'date', 'type', and 'notes'")
 		new_workout.notes = workout_data['notes']
 		
-		#add key as property so front end can easily reference and recieve key/ID via json.
-		new_workout.workoutURLID = new_workout.key.urlsafe()
+
 		
-		#put workout object on database
-		new_workout.put()
+		#put workout object on database. Save key.
+		wURLID = new_workout.put()
+		
+		#add key as property so front end can easily reference and recieve key/ID via json.
+		w = wURLID.get()
+		w.workoutURLID = wURLID.urlsafe()
+		w.put()
 		
 		#provide link to new workout object and return data for error testing
 		workout_dict = new_workout.to_dict()
