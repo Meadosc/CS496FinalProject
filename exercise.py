@@ -35,7 +35,7 @@ class ExerciseHandler(webapp2.RequestHandler):
 			exercise_dict = [] #dictionary to store exercise in
 			for e in Exercise.query().fetch(): #fetch all exercise from the database
 				e_d = e.to_dict() #turn each exercise instance into a dictionary
-				e_d['self'] = '/exercise/' + e.key.urlsafe() #add a "self" link to each exercise dictionary
+				###e_d['self'] = '/exercise/' + e.key.urlsafe() #add a "self" link to each exercise dictionary
 				exercise_dict.append(e_d) #save exercise dictionary in larger dictionary
 			self.response.write(json.dumps(exercise_dict)) #return exercise with links to themselves.
 		
@@ -60,11 +60,14 @@ class ExerciseHandler(webapp2.RequestHandler):
 			webapp2.abort(400,"Bad user input. Give json string with 'name', 'weight', 'sets', and 'reps'")
 		new_exercise.reps = exercise_data['reps']
 		
-		#add URL safe database ID so front end can easily reference object via HTTP calls and JSON
-		new_exercise.exerciseURLID = new_exercise.key.urlsafe()
 		
 		#put exercise object on database
-		new_exercise.put()
+		eURLID = new_exercise.put()
+		
+		#add key as property so front end can easily reference and recieve key/ID via json.
+		e = eURLID.get()
+		e.exerciseURLID = eURLID.urlsafe()
+		e.put()
 		
 		#provide link to new exercise object and return data for error testing
 		exercise_dict = new_exercise.to_dict()
