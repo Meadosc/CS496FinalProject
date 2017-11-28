@@ -10,6 +10,8 @@ from google.appengine.ext import ndb
 import webapp2
 import json
 
+from workout import Workout
+
 
 #Exercise
 class Exercise(ndb.Model):
@@ -100,9 +102,21 @@ class ExerciseHandler(webapp2.RequestHandler):
 		else:
 			self.response.write("patch to ExerciseHandler") #debugging
 			
-	################################
-	### needs delete handler
-	###############################
+	def delete(self, id=None):
+		#if there is an id, delete it
+		if id:
+			#Remove exercise from workouts
+			for w in Workout.query().fetch(): #fetch all workout from the database
+				delFlag = -1
+				for i, exID in enumerate(w.exerciseIDs):			
+					if exID == id:
+						delFlag = i
+						self.response.write("match found" + str(i))
+				if delFlag != -1:
+					w.exerciseIDs.pop(delFlag)
+					w.put()
+			
+			ndb.Key(urlsafe=id).delete() #delete workout
 			
 
 
