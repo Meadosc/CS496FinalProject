@@ -14,6 +14,7 @@ from remove import RemoveHandler
 
 
 
+
 # [START main_page]
 class MainPage(webapp2.RequestHandler):
     def get(self):

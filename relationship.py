@@ -3,7 +3,7 @@
 
 #-----------------------------------
 #Relationship Class and handler for main.py
-###currently not used. Had more problems than it solved.
+###currently not used. Created more issues than it solved.
 #-----------------------------------
 
 # [START imports]
@@ -15,8 +15,14 @@ from exercise import Exercise
 
 #Relationship
 class Relationship(ndb.Model):
+	relationshipURLID = ndb.StringProperty()
 	workoutID = ndb.StringProperty(required=True)
-	exerciseIDs = ndb.StringProperty(repeated=True) #list of relationship ids in the workout
+	exerciseID0 = ndb.StringProperty()
+	exerciseID1 = ndb.StringProperty()
+	exerciseID2 = ndb.StringProperty()
+	exerciseID3 = ndb.StringProperty()
+	exerciseID4 = ndb.StringProperty()
+	
 
 	
 	
@@ -47,9 +53,8 @@ class RelationshipHandler(webapp2.RequestHandler):
 		
 		#check if required data is good. If not throw bad data error
 		if isinstance(relationship_data['workoutID'], basestring) == False:
-			webapp2.abort(400,"Bad user input. Give json string with 'workoutID', and 'exerciseID'")
-		if isinstance(relationship_data.get('exerciseID', None), basestring) == False:
-			webapp2.abort(400,"Bad user input. Give json string with 'workoutID', and 'exerciseID'")
+			webapp2.abort(400,"Bad user input. Give json string with 'workoutID', and 'exerciseID0', 'exerciseID1' 'exerciseID2' 'exerciseID3' 'exerciseID4'")
+
 			
 
 		# Need to check if a relationship for the workout already exists. If so, append exercise.
@@ -58,16 +63,43 @@ class RelationshipHandler(webapp2.RequestHandler):
 		for r in Relationship.query().fetch():
 			if relationship_data['workoutID'] == r.workoutID:
 				doesExist = 1
+				### below code still assumes list.
 				r.exerciseIDs.append(relationship_data['exerciseID']) #add exercise ID to already existing relationship 
 				r.put() #add info to database
 
 		if doesExist == 0: #if the workout did not already have a relationship, add relationship and exercise ID
 			new_relationship = Relationship(workoutID=relationship_data['workoutID'], parent=parent_key) #add required data
-			new_relationship.exerciseIDs.append(relationship_data['exerciseID']) #add exercise id to list
-			new_relationship.put() #add info to database
+			new_relationship.exerciseID0 = relationship_data['exerciseID0']
+			new_relationship.exerciseID1 = relationship_data['exerciseID1']
+			new_relationship.exerciseID2 = relationship_data['exerciseID2']
+			new_relationship.exerciseID3 = relationship_data['exerciseID3']
+			new_relationship.exerciseID4 = relationship_data['exerciseID4']
+			rURLID = new_relationship.put() #add info to database
+			
+			robj = rURLID.get()
+			robj.relationshipURLID = rURLID.urlsafe()
+			robj.put()
 			
 		
 		###provide link to new relationship object and return data for error testing
 		#exercise_dict = new_relationship.to_dict()
 		#exercise_dict['self'] = '/relationship/' + new_relationship.key.urlsafe()
 		#self.response.write(json.dumps(exercise_dict))	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

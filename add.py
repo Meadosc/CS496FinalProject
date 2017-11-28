@@ -13,6 +13,9 @@ from workout import Workout
 from exercise import Exercise
 
 class AddHandler(webapp2.RequestHandler):
+
+	###Currently get servers no purpose. All below code has been abandoned.
+	### workouts now displays list of exercise ids. that replaced below "get" code.
 	def get(self, id=None):
 		#return workout ids with list of exercise ids in JSON format
 		relationship_dict = [] #dictionary to store relationships in
@@ -28,7 +31,7 @@ class AddHandler(webapp2.RequestHandler):
 				
 				r_d = r_d + "}"
 				relationship_dict.append(r_d)
-		self.response.write(json.dumps(relationship_dict))
+		self.response.write(json.dumps(relationship_dict)) ###u' is being generated here by json.dumps()
 			
 
 	
