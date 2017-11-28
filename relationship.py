@@ -10,6 +10,8 @@
 from google.appengine.ext import ndb
 import webapp2
 import json
+from workout import Workout
+from exercise import Exercise
 
 #Relationship
 class Relationship(ndb.Model):

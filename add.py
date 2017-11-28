@@ -14,8 +14,23 @@ from exercise import Exercise
 
 class AddHandler(webapp2.RequestHandler):
 	def get(self, id=None):
-		w = ndb.Key(urlsafe=id).get()  #get the workout object from the database
-		###use this to send a json string of all the exercise IDs in that workout. Like View from the slip.
+		#return workout ids with list of exercise ids in JSON format
+		relationship_dict = [] #dictionary to store relationships in
+		if id:
+			for r in Workout.query().fetch(): #fetch all workout from the database
+				r_d = "{\"workoutURLID\":  " + r.workoutURLID + "\""
+				
+				y=0
+				for x in r.exerciseIDs:
+					r_d = r_d + ", \"exerciseURLID" + str(y) + "\": \"" + r.exerciseIDs[y] + "\""
+					y = y+1
+					#self.response.write(r_d)
+				
+				r_d = r_d + "}"
+				relationship_dict.append(r_d)
+		self.response.write(relationship_dict)
+			
+
 	
 	def post(self, id=None):
 		w = ndb.Key(urlsafe=id).get()  #get the workout object from the database
