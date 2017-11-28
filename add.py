@@ -18,17 +18,17 @@ class AddHandler(webapp2.RequestHandler):
 		relationship_dict = [] #dictionary to store relationships in
 		if id:
 			for r in Workout.query().fetch(): #fetch all workout from the database
-				r_d = "{\"workoutURLID\":  " + r.workoutURLID + "\""
+				r_d = "{\"workoutURLID\":\"" + r.workoutURLID + "\""
 				
 				y=0
 				for x in r.exerciseIDs:
-					r_d = r_d + ", \"exerciseURLID" + str(y) + "\": \"" + r.exerciseIDs[y] + "\""
+					r_d = r_d + ", \"exerciseURLID" + str(y) + "\":\"" + r.exerciseIDs[y] + "\""
 					y = y+1
 					#self.response.write(r_d)
 				
 				r_d = r_d + "}"
 				relationship_dict.append(r_d)
-		self.response.write(relationship_dict)
+		self.response.write(json.dumps(relationship_dict))
 			
 
 	
